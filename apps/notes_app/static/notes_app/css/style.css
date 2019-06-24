@@ -110,6 +110,10 @@ body {
     background-color: white;
     overflow: hidden;
   }
+  
+  .panel-content {
+    border: 2px solid lime;
+  }
 
   /* Sidebar */
   .sidenav {

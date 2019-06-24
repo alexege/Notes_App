@@ -78,10 +78,11 @@ def dashboard(request):
     if not 'active_user' in request.session:
         return redirect('/')
 
-    context = {
-        'logged_in_user_obj' : User.objects.get(id=request.session['active_user']),
-    }
-    return render(request, "notes_app/dashboard.html", context)
+    # context = {
+    #     'logged_in_user_obj' : User.objects.get(id=request.session['active_user']),
+    # }
+    return redirect("/notes")
+    # return render(request, "notes_app/dashboard.html", context)
 
 #Logout User: Localhost:8000/logout
 def logout(request):
