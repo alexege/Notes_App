@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'notes_app\css\style.css' %}">
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+    <title>Successful Login</title>
+</head>
+<body>
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">Category1</a>
+    <a href="#">Category2</a>
+    <a href="#">Category3</a>
+    <a href="#">Category4</a>
+  </div>
+    <div id="main">
+
+        <div class="toggle_side_nav">
+          <a href="#" onclick="openNav()" class="toggle_a_tag">
+            <div id="toggle_button">
+              <i class="far fa-eye" id="toggle_button"></i>
+            </div>
+          </a>
+        </div>
+
+        <div class="header">
+            <h1>Notes</h1>
+        </div>
+
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="#"><span class="spotify-green">LitNotes</span></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <div class="dropdown-divider">wfwf</div>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Welcome to LitNotes, <span class="spotify-green">{{logged_in_user_obj.first_name}} {{logged_in_user_obj.last_name}}</span></a>
+                </li>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+
+      <!-- Accordion  -->
+      <button class="accordion">Section 1</button>
+      <div class="panel">
+        <p>Empty for now</p>
+      </div>
+      <div class="add_note">
+          <a href="/add_note">
+            <i class="fas fa-sticky-note"></i>
+          </a>
+      </div>
+
+
+      <div class="new_note">
+      <form>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="note_header">Title</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>
+              <input type="text" name="title" class="note_title">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <textarea rows="5" cols="5" name="content" class="form-control note_body" placeholder="Content"></textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Category
+              <select>
+                <option value="volvo">Classic</option>
+                <option value="saab">Small</option>
+                <option value="mercedes">Compressed</option>
+                <option value="audi">Large</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <div>
+                  <h3>Style/Format</h3>
+                  <label>
+                    <input type="checkbox" class="radio" value="1" name="fooby[1][]" />Var1</label>
+                  <label>
+                    <input type="checkbox" class="radio" value="1" name="fooby[1][]" />Var2</label>
+                  <label>
+                    <input type="checkbox" class="radio" value="1" name="fooby[1][]" />Var3</label>
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <input type="radio" name="radio_answer" value="Big" />Big
+                <input type="radio" name="radio_answer" value="Medium" />Medium
+                <input type="radio" name="radio_answer" value="Small" />Small
+                <input type="radio" name="radio_answer" value="Standard"/>Standard
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button class="btn btn-success">Submit</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
+      <!-- <button class="accordion">Section 1</button>
+      <div class="panel">
+        <p>Empty for now</p>
+      </div>
+      <div class="add_note">
+          <a href="/add_note">
+            <i class="fas fa-sticky-note"></i>
+          </a>
+      </div> -->
+
+      <!-- <h2>Sidenav Push Example</h2>
+      <p>Click on the element below to open the side navigation menu, and push this content to the right.</p> -->
+      <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+      
+    </div>
+    
+<script>
+  // accordion javascript
+
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.display === "block") {
+        panel.style.display = "none";
+      } else {
+        panel.style.display = "block";
+      }
+    });
+  }
+
+
+//Side Nav Script
+var toggle = true;
+function openNav() {
+  if (toggle){
+    document.getElementById("toggle_button").innerHTML='<i class="far fa-eye-slash" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    toggle = false;
+  } else {
+    document.getElementById("toggle_button").innerHTML='<i class="far fa-eye" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    toggle = true;
+  }
+}
+
+</script>     
+</body>
+</html>
