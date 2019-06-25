@@ -11,12 +11,45 @@
     <title>Successful Login</title>
 </head>
 <body>
+
+  <!-- Side Navbar -->
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">Category1</a>
-    <a href="#">Category2</a>
-    <a href="#">Category3</a>
-    <a href="#">Category4</a>
+    <form action="/notes/add_category" method="POST">
+      {% csrf_token %}
+
+      <!-- Dynamically display categories -->
+      {% for category in list_of_categories %}
+      <div class="category">
+        <a href="#">{{category.name}}</a>
+        <a href="delete_category/{{category.id}}">
+        <i class="far fa-trash-alt"></i>
+        </a>
+      </div>
+      {% endfor %}
+
+      <!-- Add a Category -->
+      <div class="center-text">
+      <table>
+        <tr>
+          <td>
+            <label for="category-name" class="spotify-green">New Category:</label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="text" id="category-name" name="category-name">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button class="btn btn-success">Add</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
   </div>
     <div id="main">
 
@@ -66,10 +99,15 @@
 
         <!-- Notes -->
         {% for note in list_of_notes %}
-        <button class="accordion">{{note.id}}</button>
+        <button class="accordion">{{note.id}}. {{note.title}} {{note.created_at}}</button>
           <div class="panel">
-            <div class="panel-content">
-            <p>{{note.content}}</p>  
+            <div class="panel-content relative-container">
+              <p class="inline">{{note.content}}</p>
+              <!-- <p>{{note.category}}</p>
+              <p>{{note.form}}</p>
+              <p>{{note.created_at}}</p>
+              <p>{{note.updated_at}}</p> -->
+              <a href="delete_note/{{note.id}}"><i class="far fa-trash-alt inline trashcan"></i></a>
             </div>     
           </div>   
         {% endfor %}
@@ -149,7 +187,7 @@
       <!-- Add a note category button-->
       <div class="add_note">
           <a href="/notes/">
-            <i class="fas fa-sticky-note"></i>
+            <i class="fas fa-sticky-note" ></i>
           </a>
       </div>
 
@@ -168,26 +206,25 @@
       <!-- <h2>Sidenav Push Example</h2>
       <p>Click on the element below to open the side navigation menu, and push this content to the right.</p> -->
       <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
-      
     </div>
     
 <script>
-  // accordion javascript
 
-  var acc = document.getElementsByClassName("accordion");
-  var i;
+// accordion javascript
+var acc = document.getElementsByClassName("accordion");
+var i;
 
-  for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      var panel = this.nextElementSibling;
-      if (panel.style.display === "block") {
-        panel.style.display = "none";
-      } else {
-        panel.style.display = "block";
-      }
-    });
-  }
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
 
 
 //Side Nav Script
@@ -205,7 +242,6 @@ function openNav() {
     toggle = true;
   }
 }
-
 </script>     
 </body>
 </html>

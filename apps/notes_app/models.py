@@ -8,3 +8,11 @@ class Note(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    child = models.ManyToManyField(Note, related_name="categories")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    

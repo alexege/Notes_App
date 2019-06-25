@@ -112,7 +112,7 @@ body {
   }
   
   .panel-content {
-    border: 2px solid lime;
+    /* border: 2px solid lime; */
   }
 
   /* Sidebar */
@@ -158,4 +158,60 @@ body {
   @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+  }
+
+
+  /* Side Navbar Styling */
+  .side-bar-text {
+    color: #1DB954;
+  }
+
+  .center-text{
+    text-align: center;
+  }
+
+  .center-text input{
+    margin: 10px;
+  }
+
+  .inline{
+    display: inline-block;
+  }
+
+  .category a {
+    display: inline-block;
+  }
+
+  .panel {
+    margin: 0;
+  }
+
+  .panel{
+    margin-left: 0;
+    margin-right: 0;
+    background-color: #818181;
+    /* border: 2px solid black; */
+  }
+
+  .panel p {
+    margin-top: 1rem;
+  }
+
+  .inline {
+    display: inline-block;
+  }
+
+.relative-container {
+  position: relative;
+}
+
+  .trashcan {
+    position: absolute;
+    top: 1rem;
+    right: 10px;
+    color: white;
+  }
+
+  .trashcan:hover {
+    color: #1DB954;
   }

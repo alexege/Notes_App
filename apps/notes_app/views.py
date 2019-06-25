@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
-from .models import User, Note
+from .models import User, Note, Category
 import bcrypt
 
 #Landing Page - Localhost:8000
@@ -9,10 +9,12 @@ def index(request):
 
     context = {
         'list_of_notes' : Note.objects.all(),
+        'list_of_categories' : Category.objects.all(),
     }
 
     return render(request, "notes_app/dashboard.html", context)
  
+#Add Note
 def add_note(request):
     print("[Localhost:8000/add_note/]---Adding a note to Note database---")
 
@@ -24,4 +26,33 @@ def add_note(request):
     # Add note to db
     Note.objects.create(title=form_title, category=form_category, form=form_form, content=form_content)
 
+    return redirect('/dashboard')
+
+#Update Note
+def update_note(request):
+    print("[Localhost:8000/update_note/]---Updating a note in the Note database---")
+    return redirect('/dashboard')
+
+#Delete Note
+def delete_note(request, id):
+    print("[Localhost:8000/delete_note/]---Deleting a note in the Note database---")
+    Category.objects.filter(id=id).delete()
+    return redirect('/dashboard')
+
+
+#New Category
+def add_category(request):
+    print("[Localhost:8000/add_category/]---Adding a category to Category database---")
+    Category.objects.create(name=request.POST['category-name'])
+    return redirect('/dashboard')
+
+#Delete Category
+def delete_category(request, id):
+    print("[Localhost:8000/delete_category/]---Delete a category from Category database---")
+    Category.objects.filter(id=id).delete()
+    return redirect('/dashboard')
+
+def delete_note(request, id):
+    print("[Localhost:8000/delete_note/]---Delete a note from Note database---")
+    Note.objects.filter(id=id).delete()
     return redirect('/dashboard')
