@@ -6,4 +6,5 @@ urlpatterns = [
     url(r'^add_category$', views.add_category),
     url(r'^delete_category/(?P<id>\d+)$', views.delete_category),
     url(r'^delete_note/(?P<id>\d+)$', views.delete_note),
+    url(r'^logout$', views.logout),
 ]

@@ -10,6 +10,7 @@ def index(request):
     context = {
         'list_of_notes' : Note.objects.all(),
         'list_of_categories' : Category.objects.all(),
+        # 'logged_in_user' : User.objects.
     }
 
     return render(request, "notes_app/dashboard.html", context)
@@ -39,7 +40,6 @@ def delete_note(request, id):
     Category.objects.filter(id=id).delete()
     return redirect('/dashboard')
 
-
 #New Category
 def add_category(request):
     print("[Localhost:8000/add_category/]---Adding a category to Category database---")
@@ -56,3 +56,8 @@ def delete_note(request, id):
     print("[Localhost:8000/delete_note/]---Delete a note from Note database---")
     Note.objects.filter(id=id).delete()
     return redirect('/dashboard')
+
+def logout(request):
+    print("[Localhost:8000/logout/]---Destroys session key ['active_user'] from session---")
+    request.session.clear()
+    return redirect('login_app/')
