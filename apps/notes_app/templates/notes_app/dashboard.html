@@ -64,89 +64,96 @@
           </div>
         </nav>
 
-      <!-- Accordion  -->
-      <button class="accordion">Note 1</button>
+        <!-- Notes -->
+        {% for note in list_of_notes %}
+        <button class="accordion">{{note.id}}</button>
+          <div class="panel">
+            <div class="panel-content">
+            <p>{{note.content}}</p>  
+            </div>     
+          </div>   
+        {% endfor %}
+
+      <!-- Create a new note -->
+      <button class="accordion">+ Add New Note</button>
       <div class="panel">
         <div class="panel-content">
-        <p>Empty for now</p>
-        <!-- STart -->
+          <div>
 
-        <!-- End -->   
+            <!-- Start -->
+            <div class="new_note">
+                <form action="/notes/add_note" method="POST">
+                  {% csrf_token %}
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th class="note_header">Add a new Note</th>
+                      </tr>
+                    </thead>
+                    <tr>
+                      <td>
+                        <input type="text" name="note-title">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <textarea rows="10" cols="5" name="form-content" class="form-control note-content" placeholder="Content"></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Category
+                        <select name="note-category">
+                          <option value="Classic">Classic</option>
+                          <option value="Small">Small</option>
+                          <option value="Compressed">Compressed</option>
+                          <option value="Large">Large</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                          <div>
+                            <h3>Style/Format</h3>
+                            <label>
+                              <input type="checkbox" class="radio" value="1" name="note-form" />Var1</label>
+                            <label>
+                              <input type="checkbox" class="radio" value="1" name="note-form" />Var2</label>
+                            <label>
+                              <input type="checkbox" class="radio" value="1" name="note-form" />Var3</label>
+                          </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                          <input type="radio" name="radio_answer" value="Big" />Big
+                          <input type="radio" name="radio_answer" value="Medium" />Medium
+                          <input type="radio" name="radio_answer" value="Small" />Small
+                          <input type="radio" name="radio_answer" value="Standard"/>Standard
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <button class="btn btn-success">Submit</button>
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              </div>
+            <!-- End -->
+
+          </div>
         </div>     
       </div>
 
-      <!-- Add a note category -->
+      <!-- Add a note category button-->
       <div class="add_note">
-          <a href="/add_note">
+          <a href="/notes/">
             <i class="fas fa-sticky-note"></i>
           </a>
       </div>
 
-      <form action='/' method="POST">
-        <table>
-          <input type="text" name="title">
-        </table>
-      </form>
-
-      <div class="new_note">
-      <form method="POST">
-        {% csrf_token %}
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th class="note_header">Add a new Note</th>
-            </tr>
-          </thead>
-          <tr>
-            <td>
-              <input type="text" name="note-title" class="note-title">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <textarea rows="10" cols="5" name="content" class="form-control note-content" placeholder="Content"></textarea>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Category
-              <select name="note-category">
-                <option value="Classic">Classic</option>
-                <option value="Small">Small</option>
-                <option value="Compressed">Compressed</option>
-                <option value="Large">Large</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-                <div>
-                  <h3>Style/Format</h3>
-                  <label>
-                    <input type="checkbox" class="radio" value="1" name="note-form" />Var1</label>
-                  <label>
-                    <input type="checkbox" class="radio" value="1" name="fooby[1][]" />Var2</label>
-                  <label>
-                    <input type="checkbox" class="radio" value="1" name="fooby[1][]" />Var3</label>
-                </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-                <input type="radio" name="radio_answer" value="Big" />Big
-                <input type="radio" name="radio_answer" value="Medium" />Medium
-                <input type="radio" name="radio_answer" value="Small" />Small
-                <input type="radio" name="radio_answer" value="Standard"/>Standard
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button class="btn btn-success">Submit</button>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </div>
+      
 
       <!-- <button class="accordion">Section 1</button>
       <div class="panel">

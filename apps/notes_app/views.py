@@ -5,20 +5,23 @@ import bcrypt
 
 #Landing Page - Localhost:8000
 def index(request):
-    print("Hit the index. Rendering notes/app/dashboard.html")
-    return render(request, "notes_app/dashboard.html")
+    print("[Localhost:8000/]---Index Page---")
+
+    context = {
+        'list_of_notes' : Note.objects.all(),
+    }
+
+    return render(request, "notes_app/dashboard.html", context)
  
 def add_note(request):
-    print("Hit the add_notes route. Rerouting to /dashboard")
-    if request.method == 'POST':
-        print("Add notes fired")
-        print(request.POST['title'])
-        # print(request.POST['note-title'])
+    print("[Localhost:8000/add_note/]---Adding a note to Note database---")
 
-        # form_title = request.POST['note-title']
-        # form_category = request.POST['note-category']
-        # form_form = request.POST['note-form']
-        # form_content = request.POST['form-content']
+    form_title = request.POST['note-title']
+    form_category = request.POST['note-category']
+    form_form = 1 #Not going to use this, will set it to default value of 1. Should remove completely, but will leave until later.
+    form_content = request.POST['form-content']
 
-        # Note.objects.create(title=form_title, category=form_category, form=form_form, content=form_content)
+    # Add note to db
+    Note.objects.create(title=form_title, category=form_category, form=form_form, content=form_content)
+
     return redirect('/dashboard')
