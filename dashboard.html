@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'notes_app\css\style.css' %}">
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>Successful Login</title>
+</head>
+<body>
+
+  <!-- Logout Button -->
+  <a href="/public">
+    <i class="fas fa-sign-out-alt logout text-success"></i>
+  </a>
+
+  <!-- Side Navbar -->
+  <div id="mySidenav" class="sidenav">
+    <h2 class="categories-title">Categories</h2>
+
+      <!-- Dynamically display categories -->
+      {% for category in list_of_categories %}
+      <div class="category">
+        <div class="category-left">
+          <a href="add_sub_category/{{category.id}}">{{category.name}}</a>
+        </div>
+        <div class="category-right">
+          <a href="delete_category/{{category.id}}">
+            <i class="far fa-trash-alt category-trashcan"></i>      
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    <form action="/notes/add_category" method="POST">
+      {% csrf_token %}  
+
+      <!-- Add a Category -->
+      <div class="center-text">
+      <table>
+        <tr>
+          <td>
+            <label for="category-name" class="spotify-green">New Category:</label>
+          </td>
+        </tr>
+        <tr class="sibs">
+          <td class="sibs">
+            <input class="sibs"type="text" id="category-name" name="category-name">
+          </td>
+        </tr>
+        <tr class="sibs">
+          <td class="sibs">
+            <button class="btn btn-success sibs">Add</button>
+          </td>
+        </tr>
+      </table>
+    </form> 
+  </div>
+  </div>
+    <div class="body"id="main">
+        <div class="toggle_side_nav">
+          <a href="#" onclick="openNav()" class="toggle_a_tag">
+            <div id="toggle_button">
+              <i class="far fa-eye" id="toggle_button"></i>
+            </div>
+          </a>
+        </div>
+        
+        <!-- Header -->
+        <div class="header">
+            <h1>Notes</h1>
+        </div>
+        
+        <!-- Navbar -->
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark custom_nav">
+          <a class="navbar-brand" href="#"><span class="spotify-green">LitNotes</span></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item dropdown">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Welcome To The Most Litest Notes Of Your Whole Entire Life. <span class="spotify-green">{{logged_in_user_obj.first_name}} {{logged_in_user_obj.last_name}}</span></a>
+                </li>
+                <a class="nav-link dropdown-toggle move" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropdown
+                </a>
+                <div class="dropdown-menu move1" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Notes -->
+        {% for note in list_of_notes %}
+        <div class="accordion">
+          {{note.id}}. {{note.title}} {{note.created_at}}
+          <a href="delete_note/{{note.id}}">
+            <i class="far fa-trash-alt inline trashcan trash"></i>
+          </a>
+        </div>
+          <div class="panel">
+            <div class="panel-content relative-container">
+              <p class="inline">{{note.content}}</p>
+              <a href="delete_note/{{note.id}}"><i class="far fa-trash-alt inline trashcan"></i></a>
+            </div>     
+          </div>   
+        {% endfor %}
+
+      <!-- Create a new note -->
+      <button class="accordion">+ Add New Note</button>
+      <div class="panel">
+        <div class="panel-content">
+          <div>
+
+            <!-- Start -->
+            <div class="new_note">
+                <form action="/notes/add_note" method="POST">
+                  {% csrf_token %}
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="note_header text-dark">New Note</th>
+                      </tr>
+                    </thead>
+                    <tr>
+                      <td>
+                        <input class="input" type="text" name="note-title" placeholder="Title">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <textarea rows="10" cols="5" name="form-content" class="form-control note-content" placeholder="Content"></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="bold">Category</span>
+                        <select name="note-category">
+                          <option value="Classic">Classic</option>
+                          <option value="Small">Small</option>
+                          <option value="Compressed">Compressed</option>
+                          <option value="Large">Large</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <button class="btn btn-success">Submit</button>
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              </div>
+            <!-- End -->
+          </div>
+        </div>     
+      </div>
+
+      <!-- Add a note category button-->
+      <div class="add_note">
+          <a href="/notes/">
+            <i class="fas fa-sticky-note" ></i>
+          </a>
+      </div>
+    </div>
+    
+<script>
+
+// accordion javascript
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+
+
+//Side Nav Script
+var toggle = true;
+function openNav() {
+  if (toggle){
+    document.getElementById("toggle_button").innerHTML='<i class="far fa-eye-slash" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    toggle = false;
+  } else {
+    document.getElementById("toggle_button").innerHTML='<i class="far fa-eye" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    toggle = true;
+  }
+}
+</script>     
+</body>
+</html>

@@ -25,13 +25,13 @@
             </div>
         </div>
     </div>
-
+    <div class="side"></div>
     <!-- Login -->
     <div class="side_log_container">
         <div class="login-block">
             <form action="/login" method="POST">
                 {% csrf_token %}
-                <table class="table login-table">
+                <table class="login-table">
                     <tr>
                         <td colspan=2>
                             <h3 class="title">Login Here!</h3>
@@ -66,7 +66,7 @@
                     {% if messages %}
                     <ul class="messages">
                         {% for message in messages %}
-                        <p{% if message.tags %} class="{{ message.tags }} red"{% endif %}>{{ message }}</p>
+                        <p{% if message.tags %} class="{{ message.tags }} text-success"{% endif %}>{{ message }}</p>
                         {% endfor %}
                     </ul>
                     {% endif %}

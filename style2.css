@@ -41,7 +41,11 @@
     margin-left:55px;
 }   
 
+.side{
+    display: inline-block;
+    border-left: 30px solid black;
+}
 .messages{
-    width: 350px;
+    width: 280px;
     margin-right:10px;
 }

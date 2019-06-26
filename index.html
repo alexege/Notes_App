@@ -20,7 +20,7 @@
 
         <div class="sibs">
             <!-- Registration Form -->
-            <div class="registration-block sibs ">
+            <div class="registration-block sibs">
                 <form action="/register" method="POST">
                     {% csrf_token %}
                     <table class="registration-table ">
@@ -81,7 +81,7 @@
                 {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }} red"{% endif %}>{{ message }}</li>
+                    <p{% if message.tags %} class="{{ message.tags }} text-success"{% endif %}>{{ message }}</p>
                     {% endfor %}
                 </ul>
                 {% endif %}
