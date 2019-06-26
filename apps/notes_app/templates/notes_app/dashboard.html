@@ -8,10 +8,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'notes_app\css\style.css' %}">
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+    
+
+    <!-- Dropdown menu -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
     <title>Successful Login</title>
 </head>
 <body>
 
+<!-- Playing with random color generator -->
+<!-- <div id="colorpad" style="width: 200px; height: 200px; background-color: #000;"></div>
+<button onclick="setRandomColor()">Random Color</button> -->
+  
   <!-- Logout Button -->
   <a href="/logout">
     <i class="fas fa-sign-out-alt logout"></i>
@@ -21,46 +32,91 @@
   <div id="mySidenav" class="sidenav">
     <h2 class="categories-title">Categories</h2>
     <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
-    <form action="/notes/add_category" method="POST">
-      {% csrf_token %}
+  
+        <!-- Dynamically display categories -->
+        {% for category in list_of_categories %}
+        <div class="category">
+          <div class="category-left">
 
-      <!-- Dynamically display categories -->
-      {% for category in list_of_categories %}
-      <div class="category">
-        <div class="category-left">
-          <a href="#">{{category.name}}</a>
+            <!-- Testing out accordion -->
+            <div class="container">
+              <a href="#cat{{category.id}}" data-toggle="collapse">{{category.name}}</a>
+              <div id="cat{{category.id}}" class="collapse">
+                
+            <!-- Subcategories generated dynamically -->
+            {% for subcategory in sub_categories %}
+              {% if category.id == subcategory.parent.id %}
+                <div class="subcategory-container">
+                  <div class="left">
+                    <a href="#">
+                      {{subcategory.name}}
+                    </a>
+                  </div>
+                  <div class="right">
+                    <a href="#">
+                      <div class="category-right">
+                        <a href="delete_sub_category/{{subcategory.id}}">
+                          <i class="fas fa-minus category-trashcan"></i>      
+                        </a>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+              <!-- Subcategory Add Form -->
+              <form action="/notes/create_sub_category/{{category.id}}" method="POST">
+                {% csrf_token %}
+                <div class="subcategory_add">
+                  <div class="left">
+                    <div class="input-group">
+                      <input type="text" class="form-control input-sm" placeholder="add subcategory" name="subcategory-name">
+                      <div class="input-group-btn">
+                        <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-plus"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
         </div>
+
+        <!-- Category Trash Button -->
         <div class="category-right">
           <a href="delete_category/{{category.id}}">
             <i class="far fa-trash-alt category-trashcan"></i>      
           </a>
         </div>
-        
         </a>
       </div>
       {% endfor %}
+      </form>
 
-      <!-- Add a Category -->
-      <div class="center-text">
-      <table>
-        <tr>
-          <td>
-            <label for="category-name" class="spotify-green">New Category:</label>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="text" id="category-name" name="category-name">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button class="btn btn-success">Add</button>
-          </td>
-        </tr>
-      </table>
-    </form>
-  </div>
+
+  <!-- <div class="input-group">
+    <input type="text" class="form-control input-sm" placeholder="add category" name="search">
+    <div class="input-group-btn">
+      <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-plus"></i></button>
+    </div>
+  </div> -->
+
+  <!-- Category Add Form -->
+  <form action="/notes/add_category" method="POST">
+    {% csrf_token %}
+    <div class="subcategory_add">
+      <div class="left">
+        <div class="input-group">
+          <input type="text" class="form-control input-sm" placeholder="add subcategory" name="category-name">
+          <div class="input-group-btn">
+            <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-plus"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 
   </div>
     <div id="main">
@@ -203,8 +259,6 @@
           </a>
       </div>
 
-      
-
       <!-- <button class="accordion">Section 1</button>
       <div class="panel">
         <p>Empty for now</p>
@@ -221,6 +275,19 @@
     </div>
     
 <script>
+
+// // Random color generator
+// function getRandomColor() {
+//   var letters = '0123456789ABCDEF';
+//   var color = '#';
+//   for (var i = 0; i < 6; i++) {
+//     color += letters[Math.floor(Math.random() * 16)];
+//   }
+//   return color;
+// }
+// function setRandomColor() {
+//   $("#colorpad").css("background-color", getRandomColor());
+// }
 
 // accordion javascript
 var acc = document.getElementsByClassName("accordion");

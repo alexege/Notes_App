@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
-from .models import User, Note, Category
+from .models import User, Note, Category, Subcategory
 import bcrypt
 
 #Landing Page - Localhost:8000
@@ -10,6 +10,7 @@ def index(request):
     context = {
         'list_of_notes' : Note.objects.all(),
         'list_of_categories' : Category.objects.all(),
+        'sub_categories' : Subcategory.objects.all(),
         # 'logged_in_user' : User.objects.
     }
 
@@ -43,7 +44,8 @@ def delete_note(request, id):
 #New Category
 def add_category(request):
     print("[Localhost:8000/add_category/]---Adding a category to Category database---")
-    Category.objects.create(name=request.POST['category-name'])
+    newCategory = Category.objects.create(name=request.POST['category-name'])
+    print(type(newCategory.id))
     return redirect('/dashboard')
 
 #Delete Category
@@ -52,10 +54,22 @@ def delete_category(request, id):
     Category.objects.filter(id=id).delete()
     return redirect('/dashboard')
 
-def delete_note(request, id):
-    print("[Localhost:8000/delete_note/]---Delete a note from Note database---")
-    Note.objects.filter(id=id).delete()
+#Delete Sub Category
+def delete_sub_category(request, id):
+    print("[Localhost:8000/delete_sub_category/]---Delete a category from Category database---")
+    Subcategory.objects.filter(id=id).delete()
     return redirect('/dashboard')
+
+#Add SubCategory
+def create_sub_category(request, id):
+    print("[Localhost:8000/delete_category/]---Delete a category from Category database---")
+    Subcategory.objects.create(name=request.POST['subcategory-name'], parent=Category.objects.get(id=id))
+    return redirect('/dashboard')
+
+# def delete_note(request, id):
+#     print("[Localhost:8000/delete_note/]---Delete a note from Note database---")
+#     Note.objects.filter(id=id).delete()
+#     return redirect('/dashboard')
 
 def logout(request):
     print("[Localhost:8000/logout/]---Destroys session key ['active_user'] from session---")
